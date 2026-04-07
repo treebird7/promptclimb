@@ -1,6 +1,7 @@
 """scorer_extraction.py — Promptclimb scorer for selfimprove extraction task.
 
 Calls gemma-4-26b on M5 :8082 for extraction, i7 :8083 for embeddings.
+Torrent shredding for long sections (>1200 chars → chunk → extract → dedup).
 Loads gold/samples directly (selfimprove gold format ≠ promptclimb case format).
 
 Usage:
@@ -25,6 +26,9 @@ SAMPLES_DIR = os.environ.get("SAMPLES_DIR", os.environ.get("PHC_SAMPLES_DIR",
     os.path.join(os.path.dirname(__file__), "..", "selfimprove", "samples")))
 GOLD_DIR = os.environ.get("PHC_GOLD_DIR",
     os.path.join(os.path.dirname(__file__), "..", "selfimprove", "gold"))
+
+TORRENT_CHUNK_SIZE = 1200
+TORRENT_OVERLAP = 150
 
 VALID_TYPES = {"decision", "finding", "pattern", "rule", "milestone", "capability", "integration"}
 
@@ -75,6 +79,44 @@ def _cosine(a, b):
     a, b = np.array(a), np.array(b)
     d = np.linalg.norm(a) * np.linalg.norm(b)
     return float(np.dot(a, b) / d) if d > 0 else 0.0
+
+
+def _shred(text: str, chunk_size: int = TORRENT_CHUNK_SIZE, overlap: int = TORRENT_OVERLAP) -> list[str]:
+    """Split long text into overlapping chunks at paragraph/sentence boundaries."""
+    if len(text) <= chunk_size:
+        return [text]
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        if end >= len(text):
+            chunks.append(text[start:])
+            break
+        search_start = max(start + chunk_size - 200, start)
+        search_end = min(start + chunk_size + 200, len(text))
+        zone = text[search_start:search_end]
+        para = zone.rfind("\n\n")
+        if para != -1:
+            end = search_start + para + 2
+        else:
+            sent = zone.rfind(". ")
+            if sent != -1:
+                end = search_start + sent + 2
+        chunks.append(text[start:end])
+        start = end - overlap
+    return chunks
+
+
+def _dedup_concepts(concepts: list[dict]) -> list[dict]:
+    """Deduplicate by lowercase name."""
+    seen: set[str] = set()
+    out = []
+    for c in concepts:
+        key = c.get("name", c.get("definition", "")).strip().lower()
+        if key and key not in seen:
+            seen.add(key)
+            out.append(c)
+    return out
 
 
 def _parse_extraction(text: str) -> list[dict]:
@@ -181,13 +223,25 @@ def score(prompt: str, cases: list) -> float:
         title = title_match.group(1).strip() if title_match else os.path.basename(sample_path)
         content = raw.split("\n", 2)[-1].strip() if title_match else raw
 
-        user_prompt = user_template.replace("{title}", title).replace("{content}", content[:3000])
-        output = _generate(system, user_prompt)
-        extracted = _parse_extraction(output)
+        # Torrent shredding for long sections
+        if len(content) > TORRENT_CHUNK_SIZE:
+            chunks = _shred(content)
+            all_concepts = []
+            for ci, chunk in enumerate(chunks):
+                user_prompt = user_template.replace("{title}", f"{title} (part {ci+1}/{len(chunks)})").replace("{content}", chunk)
+                output = _generate(system, user_prompt)
+                all_concepts.extend(_parse_extraction(output))
+            extracted = _dedup_concepts(all_concepts)
+            mode = "torrent"
+        else:
+            user_prompt = user_template.replace("{title}", title).replace("{content}", content)
+            output = _generate(system, user_prompt)
+            extracted = _parse_extraction(output)
+            mode = "single"
 
         sec_score = _score_section(extracted, gold_items)
         section_scores.append(sec_score)
-        print(f"  {base}: {len(extracted)} concepts, fitness={sec_score:.4f}")
+        print(f"  {base}: {len(extracted)} concepts, fitness={sec_score:.4f} [{mode}]")
 
     if not section_scores:
         return 0.0
