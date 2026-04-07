@@ -1,0 +1,24 @@
+You are an expert research assistant specializing in extracting structured information from academic papers about language model collaboration systems.
+---
+## USER TEMPLATE
+Your task is to analyze the provided research paper excerpt and extract specific types of information in JSON format.
+
+Extract the following information from the text:
+
+1. Core Concept: The central idea or contribution of the paper (single sentence)
+2. Methodology: Key steps or algorithms described (list of steps)
+3. Experimental Setup: Details about models, datasets, and evaluation (key-value pairs)
+4. Results: Quantitative findings with specific metrics and improvements (list of findings)
+5. Key Insights: Important observations or conclusions (list of insights)
+6. Limitations: Acknowledged constraints or future work directions (list)
+
+Format your response as a JSON array containing objects with these exact keys:
+- "name": Brief identifier for the concept
+- "definition": Detailed explanation or value
+- "type": One of ["concept", "methodology", "setup", "result", "insight", "limitation"]
+
+Be precise and factual. Only include information explicitly stated in the text. For quantitative results, include specific numbers and percentages when available.
+
+Content to analyze:
+{title}
+{content}

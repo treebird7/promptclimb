@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Single-Multi Evolution Loop",
+    "definition": "An iterative process where multiple language models collaborate to generate outputs, then each model distills from these collaborative outputs to create improved models that collaborate again, forming a collective evolution ecosystem where models evolve by interacting with an environment of other models.",
+    "type": "concept"
+  },
+  {
+    "name": "Collaboration-Distillation Duo",
+    "definition": "The two-step process consisting of (1) multi-step: multiple language models collaborate via a collaboration algorithm to generate better responses, and (2) single-step: each individual language model distills from the collaborative outputs to learn collaboration patterns while maintaining single-model inference efficiency.",
+    "type": "methodology"
+  },
+  {
+    "name": "Model Pool Configuration",
+    "definition": "Two main model pools were used: (1) Pool #1: Three specialized language models based on QWEN2.5-7B-INSTRUCT, separately finetuned on three domains of SFT data in Tulu-v3; (2) Pool #2: Three general-purpose language models (QWEN/QWEN2.5-7B-INSTRUCT, META-LLAMA/LLAMA-3.1-8B-INSTRUCT, DEEPSEEK-AI/DEEPSEEK-R1-DISTILL-QWEN-7B).",
+    "type": "setup"
+  },
+  {
+    "name": "Performance Improvement",
+    "definition": "The single-multi evolution loop improves individual models by 8.0% on average and collaboration systems by 14.9% on average across 15 tasks spanning QA, reasoning, factuality, safety, instruction following, and more.",
+    "type": "result"
+  },
+  {
+    "name": "Knowledge Distillation Benefit",
+    "definition": "Multi-student knowledge distillation outperforms simple supervised distillation by 4.67% on average, indicating that the single-multi evolution loop benefits from stronger distillation methods that preserve model diversity while learning from collaboration.",
+    "type": "insight"
+  },
+  {
+    "name": "Problem Solving Capability",
+    "definition": "The approach helps solve an average of 66.5% of problems in QA and reasoning where the initial models/systems struggle, demonstrating its effectiveness for challenging tasks that individual models cannot solve initially.",
+    "type": "insight"
+  }
+]
