@@ -1,4 +1,9 @@
-from .backends.openai import call_model
+def _route_call(prompt: str, model: str, **kwargs) -> str:
+    if model.startswith("anthropic:"):
+        from .backends.anthropic import call_model
+    else:
+        from .backends.openai import call_model
+    return call_model(prompt, model, **kwargs)
 
 
 def get_proposer_prompt(
@@ -40,5 +45,5 @@ def propose(
     Generates a new prompt using the proposer model.
     """
     proposer_prompt = get_proposer_prompt(prompt, score, weak_cases, history)
-    new_prompt = call_model(proposer_prompt, model, temperature=0.7)
+    new_prompt = _route_call(proposer_prompt, model, temperature=0.7)
     return new_prompt
