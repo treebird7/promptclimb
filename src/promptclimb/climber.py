@@ -88,10 +88,17 @@ class HillClimber:
         try:
             for case in cases:
                 case_score = self.scorer(prompt, [case])
-                annotated.append({**case, "_score": round(case_score, 4)})
+                if isinstance(case, dict):
+                    annotated.append({**case, "_score": round(case_score, 4)})
+                else:
+                    annotated.append({"_data": case, "_score": round(case_score, 4)})
         except Exception:
             # Per-case scoring failed — return unannotated cases
-            annotated = [{**case, "_score": "?"} for case in cases]
+            for case in cases:
+                if isinstance(case, dict):
+                    annotated.append({**case, "_score": "?"})
+                else:
+                    annotated.append({"_data": case, "_score": "?"})
 
         return aggregate, annotated
 

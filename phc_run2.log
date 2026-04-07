@@ -1,0 +1,90 @@
+phc: starting hill-climb for prompt.md
+phc: executor=http://localhost:8082/v1  proposer=anthropic:claude-haiku-4-5-20251001
+phc: 25 test cases, max 20 iterations
+  section_01.json: 5 concepts, fitness=0.9045 [single]
+  section_02.json: 4 concepts, fitness=0.8087 [single]
+  section_03.json: 0 concepts, fitness=0.0000 [single]
+  section_04.json: 5 concepts, fitness=0.9465 [single]
+  section_05.json: 4 concepts, fitness=0.8517 [single]
+  section_06.json: 2 concepts, fitness=0.7989 [single]
+  section_07.json: 6 concepts, fitness=0.7512 [single]
+  section_08.json: 5 concepts, fitness=0.7694 [single]
+  section_09.json: 4 concepts, fitness=0.8235 [single]
+  section_10.json: 4 concepts, fitness=0.8432 [single]
+  section_11.json: 4 concepts, fitness=0.9079 [single]
+  section_12.json: 5 concepts, fitness=0.8628 [single]
+  section_13.json: 5 concepts, fitness=0.9476 [single]
+  section_14.json: 5 concepts, fitness=0.9003 [single]
+  section_15.json: 5 concepts, fitness=0.7953 [single]
+  section_16.json: 10 concepts, fitness=0.7505 [torrent]
+  section_17.json: 14 concepts, fitness=0.7399 [torrent]
+  section_18.json: 15 concepts, fitness=0.7320 [torrent]
+  section_19.json: 12 concepts, fitness=0.7539 [torrent]
+  section_23.json: 10 concepts, fitness=0.8826 [torrent]
+  section_24.json: 12 concepts, fitness=0.7490 [torrent]
+  section_26.json: 15 concepts, fitness=0.7143 [torrent]
+  section_27.json: 13 concepts, fitness=0.7089 [torrent]
+  section_32.json: 17 concepts, fitness=0.7960 [torrent]
+  section_33.json: 13 concepts, fitness=0.7646 [torrent]
+  AVG FITNESS: 0.7801 (25 samples)
+  section_01.json: 5 concepts, fitness=0.9045 [single]
+  section_02.json: 4 concepts, fitness=0.8087 [single]
+  section_03.json: 0 concepts, fitness=0.0000 [single]
+  section_04.json: 5 concepts, fitness=0.9465 [single]
+  section_05.json: 4 concepts, fitness=0.8517 [single]
+  section_06.json: 2 concepts, fitness=0.7989 [single]
+  section_07.json: 6 concepts, fitness=0.7512 [single]
+  section_08.json: 5 concepts, fitness=0.7694 [single]
+  section_09.json: 4 concepts, fitness=0.8235 [single]
+  section_10.json: 4 concepts, fitness=0.8432 [single]
+  section_11.json: 4 concepts, fitness=0.9079 [single]
+  section_12.json: 5 concepts, fitness=0.8628 [single]
+  section_13.json: 5 concepts, fitness=0.9476 [single]
+  section_14.json: 5 concepts, fitness=0.9003 [single]
+  section_15.json: 5 concepts, fitness=0.7953 [single]
+  section_16.json: 10 concepts, fitness=0.7505 [torrent]
+  section_17.json: 14 concepts, fitness=0.7399 [torrent]
+  section_18.json: 15 concepts, fitness=0.7320 [torrent]
+  section_19.json: 12 concepts, fitness=0.7539 [torrent]
+  section_23.json: 10 concepts, fitness=0.8826 [torrent]
+  section_24.json: 12 concepts, fitness=0.7490 [torrent]
+  section_26.json: 15 concepts, fitness=0.7143 [torrent]
+  section_27.json: 13 concepts, fitness=0.7089 [torrent]
+  section_32.json: 17 concepts, fitness=0.7960 [torrent]
+  section_33.json: 13 concepts, fitness=0.7646 [torrent]
+  AVG FITNESS: 0.7801 (25 samples)
+Traceback (most recent call last):
+  File "/Users/freedbird/Dev/promptclimb/src/promptclimb/climber.py", line 91, in _score_per_case
+    annotated.append({**case, "_score": round(case_score, 4)})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'list' object is not a mapping
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/freedbird/Dev/promptclimb/.venv/bin/phc", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/freedbird/Dev/promptclimb/.venv/lib/python3.14/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/freedbird/Dev/promptclimb/.venv/lib/python3.14/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "/Users/freedbird/Dev/promptclimb/.venv/lib/python3.14/site-packages/click/core.py", line 1873, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/Users/freedbird/Dev/promptclimb/.venv/lib/python3.14/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/freedbird/Dev/promptclimb/.venv/lib/python3.14/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "/Users/freedbird/Dev/promptclimb/src/promptclimb/cli.py", line 68, in run
+    climber.run(max_iterations=iterations)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/freedbird/Dev/promptclimb/src/promptclimb/climber.py", line 124, in run
+    score_0, annotated = self._score_per_case(prompt, self.gold_cases)
+                         ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/freedbird/Dev/promptclimb/src/promptclimb/climber.py", line 94, in _score_per_case
+    annotated = [{**case, "_score": "?"} for case in cases]
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'list' object is not a mapping
