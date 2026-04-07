@@ -6,7 +6,9 @@ Give it a prompt, a scoring function, and test data. It does the rest.
 
 ## What you should know first
 
-After 354 iterations of automated prompt optimization, we learned that **the loop is most valuable as measurement infrastructure, not as the primary optimizer.** The biggest gains come from choosing the right model, writing one good example, and fixing your scoring metric — not from running more iterations. [Read the full findings.](SPEC_prompt_hill_climber.md#design-principles)
+**The loop is the test rig; the value is that, with the right rig, it finds principles that generalize.**
+
+After 354 iterations of automated prompt optimization across 3 machines, we learned that the loop is most valuable as measurement infrastructure, not as the primary optimizer. The biggest gains come from choosing the right model, writing one good example, and fixing your scoring metric — not from running more iterations. But when evaluation, preprocessing, and search-space design are strong enough, the prompt principles the loop discovers transfer across model families (phi4-optimized prompts transferred +10% to Claude Sonnet, +8% to Haiku). [Read the full findings.](SPEC_prompt_hill_climber.md#design-principles)
 
 Use `phc` to *measure and systematically improve* your prompts. Use your brain for the structural changes.
 
