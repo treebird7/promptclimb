@@ -5,3 +5,6 @@ __pycache__/
 .ruff_cache/
 .env
 results/
+.pytest_cache/
+dist/
+build/

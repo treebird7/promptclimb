@@ -1,4 +1,4 @@
-from .climber import HillClimber
-from .backends.openai import call_model
+from .climber import HillClimber, RunResult
+from .backends import call_model
 
-__all__ = ["HillClimber", "call_model"]
+__all__ = ["HillClimber", "RunResult", "call_model"]
