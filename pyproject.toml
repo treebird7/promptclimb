@@ -1,0 +1,31 @@
+[project]
+name = "promptclimb"
+version = "0.1.0"
+description = "Automatically improves LLM prompts through hill-climbing."
+authors = [{ name = "Yosef", email = "yosef@example.com" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "click",
+    "openai",
+    "python-dotenv",
+    "numpy",
+    "scikit-learn",
+]
+
+[project.urls]
+Homepage = "https://github.com/example/promptclimb"
+"Bug Tracker" = "https://github.com/example/promptclimb/issues"
+
+[project.scripts]
+phc = "promptclimb.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
