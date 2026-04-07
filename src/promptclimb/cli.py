@@ -17,7 +17,7 @@ def load_scorer_from_file(filepath: str):
 
 @click.group()
 def main():
-    """A CLI tool for prompt hill-climbing."""
+    """promptclimb — automatically improve LLM prompts through hill-climbing."""
     pass
 
 
@@ -33,7 +33,7 @@ def main():
     "eval_script",
     required=True,
     type=click.Path(exists=True, dir_okay=False),
-    help="Path to the evaluation script.",
+    help="Path to the evaluation script (must export a score() function).",
 )
 @click.option(
     "--gold",
@@ -41,13 +41,18 @@ def main():
     type=click.Path(exists=True, file_okay=False),
     help="Path to the directory with gold test cases.",
 )
-@click.option("--iterations", default=50, help="Number of iterations to run.")
+@click.option("--iterations", default=50, help="Maximum number of iterations.")
 @click.option("--model", default="openai:gpt-4o-mini", help="Model for execution.")
 @click.option(
-    "--proposer", help="Model for proposing changes (defaults to executor model)."
+    "--proposer", help="Model for proposing mutations (defaults to executor model)."
 )
 @click.option("--output", default="results/", help="Directory to save results.")
-def run(prompt, eval_script, gold, iterations, model, proposer, output):
+@click.option(
+    "--early-stop",
+    default=20,
+    help="Stop after N consecutive non-improvements (0 to disable).",
+)
+def run(prompt, eval_script, gold, iterations, model, proposer, output, early_stop):
     """Run the prompt hill-climbing optimization."""
     scorer_func = load_scorer_from_file(eval_script)
 
@@ -58,6 +63,7 @@ def run(prompt, eval_script, gold, iterations, model, proposer, output):
         model=model,
         proposer_model=proposer,
         output_dir=output,
+        early_stop_after=early_stop if early_stop > 0 else float("inf"),
     )
     climber.run(max_iterations=iterations)
 

@@ -5,7 +5,7 @@ description = "Automatically improves LLM prompts through hill-climbing."
 authors = [{ name = "Yosef", email = "yosef@example.com" }]
 license = { file = "LICENSE" }
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -17,11 +17,16 @@ dependencies = [
     "python-dotenv",
     "numpy",
     "scikit-learn",
+    "requests",
 ]
 
+[project.optional-dependencies]
+anthropic = ["anthropic"]
+dev = ["pytest"]
+
 [project.urls]
-Homepage = "https://github.com/example/promptclimb"
-"Bug Tracker" = "https://github.com/example/promptclimb/issues"
+Homepage = "https://github.com/treebird7/promptclimb"
+"Bug Tracker" = "https://github.com/treebird7/promptclimb/issues"
 
 [project.scripts]
 phc = "promptclimb.cli:main"
