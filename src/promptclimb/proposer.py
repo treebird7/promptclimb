@@ -121,10 +121,45 @@ Rules:
 Output the complete improved prompt now:"""
 
 
+def _repair_prompt(broken: str, rejection: str, original: str, model: str) -> str:
+    """Give the proposer a second chance with an explanation of what went wrong."""
+    repair_prompt = f"""Your previous prompt mutation was rejected: {rejection}
+
+The original prompt contains structural markers that MUST be preserved.
+Here is the original prompt for reference:
+---
+{original}
+---
+
+Here is your broken attempt:
+---
+{broken}
+---
+
+Fix your attempt so it preserves all structural markers (## USER TEMPLATE, {{title}}, {{content}}).
+Output ONLY the fixed prompt. No explanation."""
+
+    raw = _route_call(repair_prompt, model, temperature=0.3, max_tokens=4096)
+    return strip_contamination(raw)
+
+
 def propose(
-    prompt: str, score: float, weak_cases: list, history: list, model: str
+    prompt: str, score: float, weak_cases: list, history: list, model: str,
+    validate_fn=None,
 ) -> str:
-    """Generate a mutated prompt using the proposer model."""
+    """Generate a mutated prompt using the proposer model.
+
+    If validate_fn is provided and the proposal fails validation,
+    the proposer gets one repair attempt with an explanation.
+    """
     proposer_prompt = get_proposer_prompt(prompt, score, weak_cases, history)
     raw = _route_call(proposer_prompt, model, temperature=0.7, max_tokens=4096)
-    return strip_contamination(raw)
+    candidate = strip_contamination(raw)
+
+    if validate_fn:
+        rejection = validate_fn(candidate, prompt)
+        if rejection:
+            print(f"  [proposer] first attempt rejected ({rejection}), retrying...")
+            candidate = _repair_prompt(candidate, rejection, prompt, model)
+
+    return candidate

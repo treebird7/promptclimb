@@ -1,0 +1,19 @@
+phc: starting hill-climb for prompt.md
+phc: executor=http://localhost:8082/v1  proposer=anthropic:claude-haiku-4-5-20251001
+phc: 25 test cases, max 20 iterations
+  section_01.json: 5 concepts, fitness=0.9045 [single]
+  section_02.json: 4 concepts, fitness=0.8087 [single]
+  section_03.json: 0 concepts, fitness=0.0000 [single]
+  section_04.json: 5 concepts, fitness=0.9465 [single]
+  section_05.json: 4 concepts, fitness=0.8517 [single]
+  section_06.json: 2 concepts, fitness=0.7989 [single]
+  section_07.json: 6 concepts, fitness=0.7512 [single]
+  section_08.json: 5 concepts, fitness=0.7694 [single]
+  section_09.json: 4 concepts, fitness=0.8235 [single]
+  section_10.json: 4 concepts, fitness=0.8432 [single]
+  section_11.json: 4 concepts, fitness=0.9079 [single]
+  section_12.json: 5 concepts, fitness=0.8628 [single]
+  section_13.json: 5 concepts, fitness=0.9476 [single]
+  section_14.json: 5 concepts, fitness=0.9003 [single]
+  section_15.json: 5 concepts, fitness=0.7953 [single]
+  section_16.json: 10 concepts, fitness=0.7505 [torrent]

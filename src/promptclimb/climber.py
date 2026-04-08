@@ -156,7 +156,8 @@ class HillClimber:
                 break
 
             new_prompt = propose(
-                prompt, best_score, weak_cases, history, self.proposer_model
+                prompt, best_score, weak_cases, history, self.proposer_model,
+                validate_fn=self._validate_proposal,
             )
 
             # Validate proposal
