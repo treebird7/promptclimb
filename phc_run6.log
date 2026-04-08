@@ -1,0 +1,64 @@
+phc: starting hill-climb for prompt.md
+phc: executor=http://localhost:8082/v1  proposer=anthropic:claude-haiku-4-5-20251001
+phc: 25 test cases, max 20 iterations
+  section_01.json: 5 concepts, fitness=0.9045 [single]
+  section_02.json: 4 concepts, fitness=0.8087 [single]
+  section_03.json: 0 concepts, fitness=0.0000 [single]
+  section_04.json: 5 concepts, fitness=0.9465 [single]
+  section_05.json: 4 concepts, fitness=0.8517 [single]
+  section_06.json: 2 concepts, fitness=0.7989 [single]
+  section_07.json: 6 concepts, fitness=0.7512 [single]
+  section_08.json: 5 concepts, fitness=0.7694 [single]
+  section_09.json: 4 concepts, fitness=0.8235 [single]
+  section_10.json: 4 concepts, fitness=0.8432 [single]
+  section_11.json: 4 concepts, fitness=0.9079 [single]
+  section_12.json: 5 concepts, fitness=0.8628 [single]
+  section_13.json: 5 concepts, fitness=0.9476 [single]
+  section_14.json: 5 concepts, fitness=0.9003 [single]
+  section_15.json: 5 concepts, fitness=0.7953 [single]
+  section_16.json: 10 concepts, fitness=0.7505 [torrent]
+  section_17.json: 14 concepts, fitness=0.7399 [torrent]
+  section_18.json: 15 concepts, fitness=0.7320 [torrent]
+  section_19.json: 12 concepts, fitness=0.7539 [torrent]
+  section_23.json: 10 concepts, fitness=0.8826 [torrent]
+  section_24.json: 12 concepts, fitness=0.7490 [torrent]
+  section_26.json: 15 concepts, fitness=0.7143 [torrent]
+  section_27.json: 13 concepts, fitness=0.7089 [torrent]
+  section_32.json: 17 concepts, fitness=0.7960 [torrent]
+  section_33.json: 13 concepts, fitness=0.7646 [torrent]
+  AVG FITNESS: 0.7801 (25 samples)
+phc: baseline 0.7801 (25 cases)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   1  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   2  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   3  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   4  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   5  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   6  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   7  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   8  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter   9  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  10  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  11  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  12  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  13  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  14  REJECT (missing structural marker: ## USER TEMPLATE)
+  [proposer] first attempt rejected (missing structural marker: ## USER TEMPLATE), retrying...
+phc: iter  15  REJECT (missing structural marker: ## USER TEMPLATE)
+phc: early stop — 15 consecutive reverts (threshold: 15)
+phc: done — 0.7801 → 0.7801 (+0.0000)
+phc: 0 keeps, 0 reverts, 15 rejects in 15 iterations
+phc: best prompt → results//prompt.best.txt

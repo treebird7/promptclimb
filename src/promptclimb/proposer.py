@@ -145,12 +145,16 @@ Output ONLY the fixed prompt. No explanation."""
 
 def propose(
     prompt: str, score: float, weak_cases: list, history: list, model: str,
-    validate_fn=None,
+    validate_fn=None, escalation_model: str = None,
 ) -> str:
     """Generate a mutated prompt using the proposer model.
 
-    If validate_fn is provided and the proposal fails validation,
-    the proposer gets one repair attempt with an explanation.
+    If validate_fn is provided and the proposal fails validation:
+      1. Repair attempt with the same model
+      2. If still rejected and escalation_model is set, escalate to a stronger model
+
+    This allows cheap proposers (Haiku) to attempt first, with expensive
+    models (Sonnet) only called when the cheap one fails structurally.
     """
     proposer_prompt = get_proposer_prompt(prompt, score, weak_cases, history)
     raw = _route_call(proposer_prompt, model, temperature=0.7, max_tokens=4096)
@@ -159,7 +163,14 @@ def propose(
     if validate_fn:
         rejection = validate_fn(candidate, prompt)
         if rejection:
-            print(f"  [proposer] first attempt rejected ({rejection}), retrying...")
+            # Repair attempt with same model
+            print(f"  [proposer] first attempt rejected ({rejection}), retrying with {model}...")
             candidate = _repair_prompt(candidate, rejection, prompt, model)
+
+            rejection2 = validate_fn(candidate, prompt)
+            if rejection2 and escalation_model:
+                # Escalate to stronger model
+                print(f"  [proposer] repair failed ({rejection2}), escalating to {escalation_model}...")
+                candidate = _repair_prompt(candidate, rejection2, prompt, escalation_model)
 
     return candidate

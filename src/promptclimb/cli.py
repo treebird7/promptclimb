@@ -52,7 +52,12 @@ def main():
     default=20,
     help="Stop after N consecutive non-improvements (0 to disable).",
 )
-def run(prompt, eval_script, gold, iterations, model, proposer, output, early_stop):
+@click.option(
+    "--escalate",
+    default=None,
+    help="Stronger model to escalate to when proposer fails structurally (e.g. anthropic:claude-sonnet-4-6).",
+)
+def run(prompt, eval_script, gold, iterations, model, proposer, output, early_stop, escalate):
     """Run the prompt hill-climbing optimization."""
     scorer_func = load_scorer_from_file(eval_script)
 
@@ -62,6 +67,7 @@ def run(prompt, eval_script, gold, iterations, model, proposer, output, early_st
         gold_dir=gold,
         model=model,
         proposer_model=proposer,
+        escalation_model=escalate,
         output_dir=output,
         early_stop_after=early_stop if early_stop > 0 else float("inf"),
     )

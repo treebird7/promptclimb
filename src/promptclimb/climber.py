@@ -41,6 +41,7 @@ class HillClimber:
         gold_dir: str,
         model: str = "openai:gpt-4o-mini",
         proposer_model: str = None,
+        escalation_model: str = None,
         output_dir: str = "results/",
         early_stop_after: int = 20,
     ):
@@ -51,6 +52,7 @@ class HillClimber:
         self.gold_cases = self._load_gold_cases(gold_dir)
         self.model = model
         self.proposer_model = proposer_model or model
+        self.escalation_model = escalation_model
         self.output_dir = output_dir
         self.early_stop_after = early_stop_after
         self.results_writer = ResultsWriter(output_dir, self.initial_prompt)
@@ -162,6 +164,7 @@ class HillClimber:
             new_prompt = propose(
                 prompt, best_score, weak_cases, history, self.proposer_model,
                 validate_fn=self._validate_proposal,
+                escalation_model=self.escalation_model,
             )
 
             # Validate proposal
