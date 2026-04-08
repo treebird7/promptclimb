@@ -120,6 +120,10 @@ class HillClimber:
         # Reject if suspiciously small (less than 20% of current)
         if len(new_prompt) < len(current_prompt) * 0.2:
             return f"too small ({len(new_prompt)} chars vs {len(current_prompt)})"
+        # Structural check: if original has key markers, proposal must too
+        for marker in ["## USER TEMPLATE", "{content}", "{title}"]:
+            if marker in current_prompt and marker not in new_prompt:
+                return f"missing structural marker: {marker}"
         return None
 
     def run(self, max_iterations: int = 50) -> RunResult:
