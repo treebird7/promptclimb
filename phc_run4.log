@@ -17,3 +17,7 @@ phc: 25 test cases, max 20 iterations
   section_14.json: 5 concepts, fitness=0.9003 [single]
   section_15.json: 5 concepts, fitness=0.7953 [single]
   section_16.json: 10 concepts, fitness=0.7505 [torrent]
+  section_17.json: 14 concepts, fitness=0.7399 [torrent]
+  section_18.json: 15 concepts, fitness=0.7320 [torrent]
+  section_19.json: 12 concepts, fitness=0.7539 [torrent]
+  section_23.json: 10 concepts, fitness=0.8826 [torrent]

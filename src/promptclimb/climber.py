@@ -83,17 +83,21 @@ class HillClimber:
         """
         aggregate = self.scorer(prompt, cases)
 
-        # Try per-case scoring for weak-case detection
+        # Per-case scoring for weak-case detection — skip for expensive scorers
+        # (list-type cases or >10 cases trigger skip to avoid N×cost blowup)
         annotated = []
-        try:
-            for case in cases:
-                case_score = self.scorer(prompt, [case])
-                if isinstance(case, dict):
-                    annotated.append({**case, "_score": round(case_score, 4)})
-                else:
-                    annotated.append({"_data": case, "_score": round(case_score, 4)})
-        except Exception:
-            # Per-case scoring failed — return unannotated cases
+        skip_per_case = len(cases) > 10 or any(isinstance(c, list) for c in cases)
+        if not skip_per_case:
+            try:
+                for case in cases:
+                    case_score = self.scorer(prompt, [case])
+                    if isinstance(case, dict):
+                        annotated.append({**case, "_score": round(case_score, 4)})
+                    else:
+                        annotated.append({"_data": case, "_score": round(case_score, 4)})
+            except Exception:
+                skip_per_case = True
+        if skip_per_case:
             for case in cases:
                 if isinstance(case, dict):
                     annotated.append({**case, "_score": "?"})
