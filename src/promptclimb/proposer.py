@@ -143,33 +143,57 @@ Output ONLY the fixed prompt. No explanation."""
     return strip_contamination(raw)
 
 
+def _split_mutable(prompt: str) -> tuple[str, str] | None:
+    """Split prompt into (mutable_section, immutable_tail) at a known separator.
+
+    Recognizes: ## USER TEMPLATE, ---\\n## USER TEMPLATE
+    Returns None if no separator found (prompt is fully mutable).
+    """
+    for sep in ["---\n## USER TEMPLATE\n", "---\n## USER TEMPLATE",
+                "## USER TEMPLATE\n", "## USER TEMPLATE"]:
+        idx = prompt.find(sep)
+        if idx != -1:
+            return prompt[:idx].rstrip(), prompt[idx:]
+    return None
+
+
 def propose(
     prompt: str, score: float, weak_cases: list, history: list, model: str,
     validate_fn=None, escalation_model: str = None,
 ) -> str:
     """Generate a mutated prompt using the proposer model.
 
-    If validate_fn is provided and the proposal fails validation:
-      1. Repair attempt with the same model
-      2. If still rejected and escalation_model is set, escalate to a stronger model
+    Template splicing: if the prompt has a ## USER TEMPLATE section, only
+    the system section (before the separator) is sent to the proposer.
+    The immutable tail is spliced back automatically. The proposer never
+    sees or touches the template — it can't break what it can't reach.
 
-    This allows cheap proposers (Haiku) to attempt first, with expensive
-    models (Sonnet) only called when the cheap one fails structurally.
+    If validate_fn is provided and the proposal still fails:
+      1. Repair attempt with the same model
+      2. If still rejected and escalation_model is set, escalate
     """
-    proposer_prompt = get_proposer_prompt(prompt, score, weak_cases, history)
-    raw = _route_call(proposer_prompt, model, temperature=0.7, max_tokens=4096)
-    candidate = strip_contamination(raw)
+    split = _split_mutable(prompt)
+
+    if split:
+        mutable, immutable = split
+        proposer_prompt = get_proposer_prompt(mutable, score, weak_cases, history)
+        raw = _route_call(proposer_prompt, model, temperature=0.7, max_tokens=4096)
+        new_mutable = strip_contamination(raw)
+        candidate = new_mutable.rstrip() + "\n" + immutable
+        print(f"  [proposer] template splice: {len(new_mutable)} chars mutated, {len(immutable)} chars preserved")
+    else:
+        proposer_prompt = get_proposer_prompt(prompt, score, weak_cases, history)
+        raw = _route_call(proposer_prompt, model, temperature=0.7, max_tokens=4096)
+        candidate = strip_contamination(raw)
 
     if validate_fn:
         rejection = validate_fn(candidate, prompt)
         if rejection:
-            # Repair attempt with same model
-            print(f"  [proposer] first attempt rejected ({rejection}), retrying with {model}...")
+            print(f"  [proposer] rejected ({rejection}), retrying with {model}...")
             candidate = _repair_prompt(candidate, rejection, prompt, model)
 
             rejection2 = validate_fn(candidate, prompt)
             if rejection2 and escalation_model:
-                # Escalate to stronger model
                 print(f"  [proposer] repair failed ({rejection2}), escalating to {escalation_model}...")
                 candidate = _repair_prompt(candidate, rejection2, prompt, escalation_model)
 
