@@ -19,30 +19,27 @@ import time
 import numpy as np
 import requests
 
+EXECUTOR_URL = os.environ.get("EXECUTOR_URL", "http://localhost:8082")
+EXECUTOR_MODEL = os.environ.get("SELFIMPROVE_EXECUTOR", "gemma-4-26b-a4b-it")
+EMBEDDING_URL = os.environ.get("EMBEDDING_URL", "http://192.168.1.157:8083")
+SAMPLES_DIR = os.environ.get("SAMPLES_DIR", os.environ.get("PHC_SAMPLES_DIR",
+    os.path.join(os.path.dirname(__file__), "..", "selfimprove", "samples")))
+GOLD_DIR = os.environ.get("PHC_GOLD_DIR",
+    os.path.join(os.path.dirname(__file__), "..", "selfimprove", "gold"))
+
 TORRENT_CHUNK_SIZE = 1200
 TORRENT_OVERLAP = 150
 
-VALID_TYPES = {
-    "decision",
-    "finding",
-    "pattern",
-    "rule",
-    "milestone",
-    "capability",
-    "integration",
-}
+VALID_TYPES = {"decision", "finding", "pattern", "rule", "milestone", "capability", "integration"}
 
 
 def _generate(system: str, user: str) -> str:
-    executor_url = os.environ.get("EXECUTOR_URL", "http://localhost:8082")
-    executor_model = os.environ.get("SELFIMPROVE_EXECUTOR", "gemma-4-26b-a4b-it")
-
     for attempt in range(3):
         try:
             resp = requests.post(
-                f"{executor_url}/v1/chat/completions",
+                f"{EXECUTOR_URL}/v1/chat/completions",
                 json={
-                    "model": executor_model,
+                    "model": EXECUTOR_MODEL,
                     "messages": [
                         {"role": "system", "content": system},
                         {"role": "user", "content": user},
@@ -63,11 +60,10 @@ def _generate(system: str, user: str) -> str:
 
 
 def _embed(texts: list[str]) -> list[list[float]]:
-    embedding_url = os.environ.get("EMBEDDING_URL", "http://192.168.1.157:8083")
     prefixed = [f"search_document: {t}" for t in texts]
     try:
         resp = requests.post(
-            f"{embedding_url}/v1/embeddings",
+            f"{EMBEDDING_URL}/v1/embeddings",
             json={"input": prefixed, "model": "nomic-embed-text"},
             timeout=300,
         )
@@ -85,9 +81,7 @@ def _cosine(a, b):
     return float(np.dot(a, b) / d) if d > 0 else 0.0
 
 
-def _shred(
-    text: str, chunk_size: int = TORRENT_CHUNK_SIZE, overlap: int = TORRENT_OVERLAP
-) -> list[str]:
+def _shred(text: str, chunk_size: int = TORRENT_CHUNK_SIZE, overlap: int = TORRENT_OVERLAP) -> list[str]:
     """Split long text into overlapping chunks at paragraph/sentence boundaries."""
     if len(text) <= chunk_size:
         return [text]
@@ -132,7 +126,7 @@ def _parse_extraction(text: str) -> list[dict]:
         text = fence.group(1).strip()
     start, end = text.find("["), text.rfind("]")
     if start != -1 and end != -1:
-        text = text[start : end + 1]
+        text = text[start:end + 1]
     try:
         parsed = json.loads(text)
         if isinstance(parsed, list):
@@ -143,19 +137,15 @@ def _parse_extraction(text: str) -> list[dict]:
 
 
 def _split_prompt(prompt: str):
-    for sep in [
-        "---\n## USER TEMPLATE\n",
-        "---\n## USER TEMPLATE",
-        "## USER TEMPLATE\n",
-        "## USER TEMPLATE",
-    ]:
+    for sep in ["---\n## USER TEMPLATE\n", "---\n## USER TEMPLATE",
+                "## USER TEMPLATE\n", "## USER TEMPLATE"]:
         idx = prompt.find(sep)
         if idx != -1:
             system = prompt[:idx].strip()
-            user = prompt[idx + len(sep) :].strip()
+            user = prompt[idx + len(sep):].strip()
             last_bracket = user.rfind("]")
             if last_bracket != -1:
-                user = user[: last_bracket + 1].strip()
+                user = user[:last_bracket + 1].strip()
             return system, user
     return prompt.strip(), ""
 
@@ -172,8 +162,8 @@ def _score_section(extracted: list[dict], gold: list[dict]) -> float:
     all_vecs = _embed(ext_defs + gold_defs)
     if not all_vecs:
         return 0.0
-    ext_vecs = all_vecs[: len(ext_defs)]
-    gold_vecs = all_vecs[len(ext_defs) :]
+    ext_vecs = all_vecs[:len(ext_defs)]
+    gold_vecs = all_vecs[len(ext_defs):]
 
     sim_scores = []
     best_idx = []
@@ -209,17 +199,8 @@ def score(prompt: str, cases: list) -> float:
     if not user_template:
         return 0.0
 
-    samples_dir = os.environ.get(
-        "SAMPLES_DIR",
-        os.environ.get(
-            "PHC_SAMPLES_DIR",
-            os.path.join(os.path.dirname(__file__), "..", "selfimprove", "samples"),
-        ),
-    )
-    gold_dir = os.environ.get(
-        "PHC_GOLD_DIR",
-        os.path.join(os.path.dirname(__file__), "..", "selfimprove", "gold"),
-    )
+    gold_dir = GOLD_DIR
+    samples_dir = SAMPLES_DIR
     sample_files = sorted(glob.glob(os.path.join(samples_dir, "section_*.md")))
     golds = {
         os.path.basename(p).replace(".md", ".json"): p
@@ -239,11 +220,7 @@ def score(prompt: str, cases: list) -> float:
 
         raw = open(sample_path).read()
         title_match = re.search(r"## Title: (.+)", raw)
-        title = (
-            title_match.group(1).strip()
-            if title_match
-            else os.path.basename(sample_path)
-        )
+        title = title_match.group(1).strip() if title_match else os.path.basename(sample_path)
         content = raw.split("\n", 2)[-1].strip() if title_match else raw
 
         # Torrent shredding for long sections
@@ -251,17 +228,13 @@ def score(prompt: str, cases: list) -> float:
             chunks = _shred(content)
             all_concepts = []
             for ci, chunk in enumerate(chunks):
-                user_prompt = user_template.replace(
-                    "{title}", f"{title} (part {ci + 1}/{len(chunks)})"
-                ).replace("{content}", chunk)
+                user_prompt = user_template.replace("{title}", f"{title} (part {ci+1}/{len(chunks)})").replace("{content}", chunk)
                 output = _generate(system, user_prompt)
                 all_concepts.extend(_parse_extraction(output))
             extracted = _dedup_concepts(all_concepts)
             mode = "torrent"
         else:
-            user_prompt = user_template.replace("{title}", title).replace(
-                "{content}", content
-            )
+            user_prompt = user_template.replace("{title}", title).replace("{content}", content)
             output = _generate(system, user_prompt)
             extracted = _parse_extraction(output)
             mode = "single"

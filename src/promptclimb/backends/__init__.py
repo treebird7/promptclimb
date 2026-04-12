@@ -17,6 +17,8 @@ def call_model(
         from .ollama import call_model as _call
     elif model.startswith("anthropic:"):
         from .anthropic import call_model as _call
+    elif model.startswith("lmstudio:"):
+        from .lmstudio import call_model as _call
     else:
         # openai:, lmstudio:, http://, https:// all use OpenAI-compatible API
         from .openai import call_model as _call

@@ -1,0 +1,17 @@
+{
+  "branches": {
+    "main": {
+      "name": "main",
+      "files": [
+        "src/promptclimb/climber.py",
+        "src/promptclimb/proposer.py",
+        "src/promptclimb/backends/anthropic.py",
+        "src/promptclimb/cli.py",
+        "scorer_extraction.py"
+      ],
+      "status": "active",
+      "registeredAt": "2026-04-08T08:51:53.500Z"
+    }
+  },
+  "version": "1.0"
+}

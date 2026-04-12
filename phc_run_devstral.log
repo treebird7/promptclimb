@@ -1,0 +1,109 @@
+phc: starting hill-climb for prompt.md
+phc: executor=http://localhost:8082/v1  proposer=lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1
+phc: 25 test cases, max 20 iterations
+  section_01.json: 5 concepts, fitness=0.9045 [single]
+  section_02.json: 4 concepts, fitness=0.8096 [single]
+  section_03.json: 0 concepts, fitness=0.0000 [single]
+  section_04.json: 5 concepts, fitness=0.9465 [single]
+  section_05.json: 4 concepts, fitness=0.8517 [single]
+  section_06.json: 2 concepts, fitness=0.7990 [single]
+  section_07.json: 6 concepts, fitness=0.7572 [single]
+  section_08.json: 6 concepts, fitness=0.7738 [single]
+  section_09.json: 4 concepts, fitness=0.8233 [single]
+  section_10.json: 4 concepts, fitness=0.7721 [single]
+  section_11.json: 4 concepts, fitness=0.9086 [single]
+  section_12.json: 5 concepts, fitness=0.8728 [single]
+  section_13.json: 4 concepts, fitness=0.8447 [single]
+  section_14.json: 5 concepts, fitness=0.8995 [single]
+  section_15.json: 5 concepts, fitness=0.7953 [single]
+  section_16.json: 11 concepts, fitness=0.7540 [torrent]
+  section_17.json: 14 concepts, fitness=0.7566 [torrent]
+  section_18.json: 6 concepts, fitness=0.7337 [torrent]
+  section_19.json: 12 concepts, fitness=0.8106 [torrent]
+  section_23.json: 11 concepts, fitness=0.8717 [torrent]
+  section_24.json: 5 concepts, fitness=0.7104 [torrent]
+  section_26.json: 16 concepts, fitness=0.7176 [torrent]
+  section_27.json: 13 concepts, fitness=0.7125 [torrent]
+  section_32.json: 17 concepts, fitness=0.7985 [torrent]
+  section_33.json: 13 concepts, fitness=0.7595 [torrent]
+  AVG FITNESS: 0.7754 (25 samples)
+phc: baseline 0.7754 (25 cases)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   1  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   2  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   3  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   4  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   5  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   6  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   7  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   8  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter   9  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  10  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  11  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  12  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  13  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  14  REJECT (empty output)
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+  [proposer] template splice: 0 chars mutated, 2885 chars preserved
+  [proposer] rejected (too small (2886 chars vs 19957)), retrying with lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1...
+Error calling model lmstudio:mistralai/devstral-small-2-2512@localhost:8082/v1: Connection error.
+phc: iter  15  REJECT (empty output)
+phc: early stop — 15 consecutive reverts (threshold: 15)
+phc: done — 0.7754 → 0.7754 (+0.0000)
+phc: 0 keeps, 0 reverts, 15 rejects in 15 iterations
+phc: best prompt → results_devstral//prompt.best.txt
