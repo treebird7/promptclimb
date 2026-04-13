@@ -1,13 +1,26 @@
-# Next Steps for Research Prompt Mining with PromptClimb
+# Next Steps for PromptClimb
 
 ## What We've Accomplished
 
 1. **Analyzed the PromptClimb codebase** and understood its hill-climbing optimization capabilities
-2. **Examined the research paper** provided by the user (/Users/freedbird/Downloads/The_Single-Multi_Evolution_Loop_for_Self-Improving.md)
+2. **Examined the research paper** (The Single-Multi Evolution Loop for Self-Improving)
 3. **Created a specialized prompt template** for extracting structured information from academic papers
 4. **Set up gold standard examples** with the type of structured output we want to extract
 5. **Documented a comprehensive use case** showing how PromptClimb can be applied to research prompt mining
 6. **Identified the technical requirements** for running the optimization
+7. **Completed spidersan playbook optimization** — first real-world PHC deployment (see `research_results/spidersan_playbook/`)
+   - Gemma 4 26B as executor, tested Gemma/GPT-4o/Sonnet 4.6 as proposers
+   - Best result: Sonnet 4.6 single-shot mutation → **0.972** peak, **0.938** mean (up from 0.895 baseline)
+   - 18-scenario playbook deployed to spidersan production
+   - Key finding: targeted single-shot mutation by a strong model beats iterative PHC with weaker proposer
+
+## Key Learnings from Spidersan Campaign
+
+1. **Model hierarchy matters more than iteration count** — Sonnet 4.6 > GPT-4o >> Gemma as proposer
+2. **Single-shot targeted mutation can beat iterative optimization** when the engineer (human or AI) understands *why* specific cases fail
+3. **Stochastic variance is the real enemy** — same prompt swings ±10% between runs; multi-eval averaging is essential
+4. **Scorer design is the leverage point** — the 5-dimension scorer (must_mention, penalty, commands, structure, tier) revealed UX gaps in spidersan itself
+5. **Dogfooding via PHC** — optimization loop surfaced CLI design issues (queen vs torrent confusion, advise vs inline advice)
 
 ## What's Needed to Complete the Task
 
