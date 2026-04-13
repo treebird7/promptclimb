@@ -41,8 +41,8 @@ You would need to:
 
 ### 2. Local LLM Endpoints (Optional)
 The scorer_extraction.py is configured to work with local models:
-- EXECUTOR_URL=http://localhost:8082/v1 (for extraction/generation)
-- EMBEDDING_URL=http://192.168.1.157:8083/v1/embeddings (for embeddings)
+- `EXECUTOR_URL=http://localhost:8082/v1` (for extraction/generation)
+- `EMBEDDING_URL=http://<your-local-ip>:8083/v1/embeddings` (for embeddings)
 - Models: gemma-4-26b-a4b-it (extraction) and nomic-embed-text (embeddings)
 
 ### 3. Properly Formatted Prompt

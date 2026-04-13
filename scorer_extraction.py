@@ -63,7 +63,7 @@ def _generate(system: str, user: str) -> str:
 
 
 def _embed(texts: list[str]) -> list[list[float]]:
-    embedding_url = os.environ.get("EMBEDDING_URL", "http://192.168.1.157:8083")
+    embedding_url = os.environ.get("EMBEDDING_URL", "http://localhost:8083")
     prefixed = [f"search_document: {t}" for t in texts]
     try:
         resp = requests.post(

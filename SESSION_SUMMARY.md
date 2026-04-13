@@ -21,7 +21,7 @@ When we explicitly set:
 - `SAMPLES_DIR=/Users/freedbird/Dev/promptclimb/research_mining/samples`
 - `GOLD_DIR=/Users/freedbird/Dev/promptclimb/research_mining/gold`
 - `SELFIMPROVE_EXECUTOR=gemma-4-26b-a4b-it`
-- `EMBEDDING_URL=http://192.168.1.157:8083`
+- `EMBEDDING_URL=http://localhost:8083`
 
 The scorer worked correctly, producing:
 - Score: 0.5538 for the research prompt on the Single-Multi Evolution Loop section

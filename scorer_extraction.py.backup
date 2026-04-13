@@ -21,7 +21,7 @@ import requests
 
 EXECUTOR_URL = os.environ.get("EXECUTOR_URL", "http://localhost:8082")
 EXECUTOR_MODEL = os.environ.get("SELFIMPROVE_EXECUTOR", "gemma-4-26b-a4b-it")
-EMBEDDING_URL = os.environ.get("EMBEDDING_URL", "http://192.168.1.157:8083")
+EMBEDDING_URL = os.environ.get("EMBEDDING_URL", "http://localhost:8083")
 SAMPLES_DIR = os.environ.get("SAMPLES_DIR", os.environ.get("PHC_SAMPLES_DIR",
     os.path.join(os.path.dirname(__file__), "..", "selfimprove", "samples")))
 GOLD_DIR = os.environ.get("PHC_GOLD_DIR",
