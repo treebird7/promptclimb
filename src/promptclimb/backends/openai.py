@@ -1,20 +1,33 @@
 import os
+import subprocess
 from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
+def _get_gh_token() -> str:
+    """Get GitHub auth token via gh CLI."""
+    try:
+        result = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, timeout=5)
+        return result.stdout.strip()
+    except Exception:
+        return ""
+
+
 def get_openai_client(model_string: str):
     """
     Initializes an OpenAI client based on the model string.
-    Supports openai:, lmstudio:, http://, https:// prefixes.
+    Supports openai:, github:, lmstudio:, http://, https:// prefixes.
     """
     api_key = os.getenv("OPENAI_API_KEY")
     base_url = None
 
     if model_string.startswith("openai:"):
         pass  # Default OpenAI client
+    elif model_string.startswith("github:"):
+        base_url = "https://models.inference.ai.azure.com"
+        api_key = os.getenv("GITHUB_TOKEN") or _get_gh_token()
     elif model_string.startswith("lmstudio:"):
         base_url = "http://localhost:1234/v1"
         api_key = "lm-studio"
