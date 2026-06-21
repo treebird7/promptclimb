@@ -1,1 +1,0 @@
-../selfimprove/prompt.md

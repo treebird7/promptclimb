@@ -416,4 +416,4 @@ Recommendation: **`promptclimb`** — short, memorable, pip-installable.
 
 ---
 
-*Spec by Yosef, 2026-04-07. Born from the selfimprove fidelity ceiling thesis.*
+*Spec by Treebird, 2026-04-07. Born from the selfimprove fidelity ceiling thesis.*

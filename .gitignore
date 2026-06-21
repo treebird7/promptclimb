@@ -8,3 +8,24 @@ results/
 .pytest_cache/
 dist/
 build/
+
+# --- personal / internal (canonical copies live in ../treebird/ml/promptclimber/) ---
+/.spidersan/
+/NEXT_STEPS.md
+/SESSION_SUMMARY.md
+/RESEARCH_USECASE.md
+*.log
+/prompt_sonnet_spidersan.md
+/scorer_spidersan.py
+/scorer_extraction*
+/devstral_proposer_log.txt
+/research_mining/
+/research_prompt_mining.txt
+/research_results/
+/results_devstral/
+/results_devstral_test/
+/test_haiku/
+/gold
+/prompt.md
+/samples
+/PRIVATE_REF.md
